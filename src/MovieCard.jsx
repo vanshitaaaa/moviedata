@@ -1,44 +1,40 @@
 import { NavLink, useParams } from "react-router-dom";
 import { API_URL } from "./Context";
-import React , {useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 const MovieCard = () => {
   const { id } = useParams();
-  const [isLoading , setIsLoading] = useState(true);
-  const [movie , setMovie] = useState("");
-    const getMovies = async(url)=>{
-        setIsLoading(true);
-        try {
-            const res = await fetch(url);
-            const data = await res.json();
-            console.log(data)
-            if(data.Response === "True"){
-                setIsLoading(false);
-                setMovie(data);
-            }
-            
-        } catch (error) {
-            console.log(error)
-        }
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [movie, setMovie] = useState("");
+  const getMovies = async (url) => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      console.log(data);
+      if (data.Response === "True") {
+        setIsLoading(false);
+        setMovie(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    useEffect(() => {
-        let timerOut = setTimeout(()=> {
-            getMovies(`${API_URL}&i=${id}`);
-        } , 800);
-        return ()=> clearTimeout(timerOut);
-        
-    } , [id]);
+  useEffect(() => {
+    let timerOut = setTimeout(() => {
+      getMovies(`${API_URL}&i=${id}`);
+    }, 800);
+    return () => clearTimeout(timerOut);
+  }, [id]);
 
-    if(isLoading) {
-        return (
-            <div className="movie-section">
-                <div className="loading">Loading...</div>
-            </div>
-        );
-    }
-
+  if (isLoading) {
+    return (
+      <div className="movie-section">
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <section className="movie-section">
